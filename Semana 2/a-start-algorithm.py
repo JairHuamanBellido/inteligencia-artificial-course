@@ -12,13 +12,17 @@ class Node:
         self.g      = 0         
         self.path   = []
         self.name   = name
+        self.parent = None
 
     def __lt__(self,other):
         return self.f < other.f
     
     def asignPath(self, nodeTarget, cost):
         path = Path(cost,nodeTarget)
+        pathReverse = Path(cost,self)
+        
         self.path.append(path)
+        nodeTarget.path.append(pathReverse)
 
 
 def findPath(nodeOrigin,nodeTarget):
@@ -77,8 +81,20 @@ def findPath(nodeOrigin,nodeTarget):
             else:
                 path.node.g = current_cost     
                 path.node.f = path.node.g + path.node.h
+                path.node.parent = bestNode
                 openNodes.append(path.node)
-    return closedNodes    
+    
+    result = []
+    endNode = nodeTarget
+
+    while True:
+        result.append(endNode)
+        if endNode.parent == None:
+            break
+        endNode = endNode.parent
+    
+    result.reverse()
+    return result    
 
 def showResult(results):
     print("la ruta es")
@@ -86,63 +102,71 @@ def showResult(results):
         print(path.name, "", sep =' | ',end=" ")
     print("\n")
 
-def exercise1():
-    # VIDEO
-    # https://www.youtube.com/watch?v=PzEWHH2v3TE&t=33s
+def exercise3():
+    Arad            = Node(366,'Arad')
+    Bucharest       = Node(0,'Bucharest')
+    Craiova         = Node(160,'Craiova')
+    Dobreta         = Node(242,'Dobreta')
+    Eforie          = Node(161,'Eforie')
+    Fagaras         = Node(178, 'Fagaras')
+    Giurgiu         = Node(77, 'Giurgiu')
+    Hirsova         = Node(151, 'Hirsova')
+    Iasi            = Node(226, 'Iasi')
+    Lugoj           = Node(244,'Lugoj')
+    Mehadia         = Node(241,'Mehadia')
+    Neamt           = Node(234, 'Neamt')
+    Oradea          = Node(380, 'Oradea')
+    Pitesti         = Node(98, 'Pitesti')
+    RimnicuVilcrea  = Node(193, 'Rimnicu Vilcea')
+    Sibiu           = Node(253, 'Sibiu')
+    Timisoara       = Node(329, 'Timisoara')
+    Urziceni        = Node(80, 'Urziceni')
+    Vaslui          = Node(199, 'Vaslui')
+    Zerind          = Node(374, 'Zerind')
+
+    Arad.asignPath(Zerind,75)
+    Arad.asignPath(Sibiu,140)
+    Arad.asignPath(Timisoara,118)
     
-    nodeS = Node(5,'Nodo S')
-    nodeA = Node(3,'Node A')
-    nodeB = Node(4,'Node B')
-    nodeC = Node(2,'Node C')
-    nodeD = Node(6,'Node D')
-    nodeTarget = Node(0,'Node Target')
+    Zerind.asignPath(Oradea,71)
 
-    # Nodo Origen
-    nodeS.asignPath(nodeA,1)
-    nodeS.asignPath(nodeTarget,10)
+    Oradea.asignPath(Sibiu,151)
 
-    # Nodo A
-    nodeA.asignPath(nodeB,2)
-    nodeA.asignPath(nodeC,1)
+    Timisoara.asignPath(Lugoj,111)
 
-    # Nodo B
-    nodeB.asignPath(nodeD,5)
+    Lugoj.asignPath(Mehadia,70)
 
-    # Nodo C
-    nodeC.asignPath(nodeD,3)
-    nodeC.asignPath(nodeTarget,4)
+    Mehadia.asignPath(Dobreta,75)
 
-    # Nodo D
-    nodeD.asignPath(nodeTarget,2)
-    showResult(findPath(nodeS,nodeTarget))
-  
+    Dobreta.asignPath(Craiova,120)
 
-def exercise2():
-    # VIDEO
-    # https://www.youtube.com/watch?v=Eiu1Cb-veCc
-    nodeS = Node(7, 'Node S')
-    nodeA = Node(6, 'Node A')
-    nodeB = Node(2, 'Node B')
-    nodeC = Node(1, 'Node C')
-    nodeD = Node(0, 'Nodo D')
+    Craiova.asignPath(RimnicuVilcrea,146)
+    Craiova.asignPath(Pitesti,138)
 
-    # Nodo origen
-    nodeS.asignPath(nodeA, 1)
-    nodeS.asignPath(nodeB, 4)
+    RimnicuVilcrea.asignPath(Pitesti,97)
+    
+    Sibiu.asignPath(Fagaras,99)
+    Sibiu.asignPath(RimnicuVilcrea,80)
 
-    # Nodo A
-    nodeA.asignPath(nodeB, 2)
-    nodeA.asignPath(nodeC, 5)
-    nodeA.asignPath(nodeD, 12)
+    Fagaras.asignPath(Bucharest, 211)
 
-    # Nodo B
-    nodeB.asignPath(nodeC, 2)
+    Pitesti.asignPath(Bucharest,101)
 
-    # Node C
-    nodeC.asignPath(nodeD, 3)
-    showResult(findPath(nodeS,nodeD))
+    Bucharest.asignPath(Giurgiu,90)
+    Bucharest.asignPath(Urziceni, 85)
 
-exercise1()
-exercise2()
+    Urziceni.asignPath(Hirsova, 98)
+    Urziceni.asignPath(Vaslui, 142)
+
+    Hirsova.asignPath(Eforie, 86)
+
+    Vaslui.asignPath(Iasi, 92)
+
+    Iasi.asignPath(Neamt,87)
+
+    showResult(findPath(Timisoara,Bucharest))
+
+
+exercise3()
 
 

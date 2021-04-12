@@ -1,0 +1,2 @@
+LINEAL = 10
+DIAGONAL = 14
