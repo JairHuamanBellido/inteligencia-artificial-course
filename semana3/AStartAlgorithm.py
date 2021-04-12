@@ -21,7 +21,6 @@ class AStartAlgorithm:
         
     def getNeighbors(self,node):
 
-
         neighbors = []
 
         if node.x - 1 >= 0:
@@ -68,9 +67,6 @@ class AStartAlgorithm:
                 self.table[node.y + 1][node.x + 1].direction = "Diagonal"
                 neighbors.append(self.table[node.y + 1][node.x + 1])
 
-        if (node.x == 8 and node.y == 3):
-            for n in neighbors:
-                print(n.x, n.y)
         return neighbors
 
     def findPath(self,nodeOrigin,nodeTarget):
